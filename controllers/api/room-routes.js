@@ -11,7 +11,7 @@ const {Member, User, Room, Message} = require('../../models');
 router.get('/', async (req, res) => {
     
     try{
-        const rooms = await Room.findall();
+        const rooms = await Room.findAll();
         if(!rooms){
             res.status(404).json({message: "No Rooms Found"});
         }
@@ -25,11 +25,13 @@ router.get('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
     try{
         const room = await Room.findByPk(req.params.id);
-        if(!room){
+            if(!room){
             res.status(404).json({message: 'Room not found'});
             return;
-        };
-    } catch {
+        
+        }
+        res.status(200).json(room);
+    } catch (err) {
         res.status(500).json(err);
     }   
 });
